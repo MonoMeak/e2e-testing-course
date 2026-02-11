@@ -23,8 +23,8 @@ test("Handling form @gitHubAction", async ({ page }) => {
 
   const newTodo = await page.getByPlaceholder("What needs to be done?");
 
-  await page.fill('[placeholder]="What needs to be done?"]', "John Doe");
-  await page.locator('[placeholder]="What needs to be done?"]').press("Enter");
+  await page.fill('[placeholder="What needs to be done?"]', "John Doe");
+  await page.locator('[placeholder="What needs to be done?"]').press("Enter");
 
   const checkBox = page.locator(".toggle");
   await checkBox.check();
