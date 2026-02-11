@@ -1,0 +1,31 @@
+import { test, expect } from "@playwright/test";
+
+test.skip("Automation from Submission @gitHubAction", async ({ page }) => {
+  await page.goto("https://demo.playwright.dev/todomvc");
+
+  const newTodo = await page.getByPlaceholder("What needs to be done?");
+
+  await newTodo.fill("Summary the text");
+  await newTodo.press("Enter");
+  await newTodo.fill("Play Football");
+  await newTodo.press("Enter");
+
+  const firstTodo = page.getByTestId("todo-item").nth(0);
+  await firstTodo.getByRole("checkbox").check();
+
+  const secondTodo = page.getByTestId("todo-item").nth(1);
+  await expect(firstTodo).toHaveClass("completed");
+  await expect(secondTodo).not.toHaveClass("completed");
+});
+
+test("Handling form @gitHubAction", async ({ page }) => {
+  await page.goto("https://demo.playwright.dev/todomvc");
+
+  const newTodo = await page.getByPlaceholder("What needs to be done?");
+
+  await page.fill('[placeholder]="What needs to be done?"]', "John Doe");
+  await page.locator('[placeholder]="What needs to be done?"]').press("Enter");
+
+  const checkBox = page.locator(".toggle");
+  await checkBox.check();
+});
