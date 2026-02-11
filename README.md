@@ -1,56 +1,81 @@
 # End-to-End Testing with Playwright
 
-This repository contains practice workshops for learning **End-to-End (E2E) testing** using **Playwright**.
+This course repository contains practical workshops for learning **End-to-End (E2E) testing** with **Playwright**.
 
-## What you will learn
+## Course goal
 
-- How to write basic Playwright tests
-- How to interact with web elements (click, fill, select, etc.)
-- How to handle pages, iframes, and multiple browser contexts
-- How to organize tests with reusable structures
+Learn how to build reliable UI tests and run them both locally and in CI using GitHub Actions.
+
+## Workshops
+
+- `workshop_1`: Basic navigation, locators, and registration form interaction
+- `workshop_2`: Form handling and todo flow automation
+- `workshop_3`: Advanced interactions (hover, right click, double click), drag and drop, iframe handling
+- `workshop_4`: Browser dialogs (alert/confirm) and popup handling
+- `workshop_5`: Multi-page flow and cookie handling
+- `workshop_6`: Registration validation scenarios (valid, partial, empty inputs)
+- `workshop_7`: TypeScript declarations, types, and interface-driven test data
+- `workshop_8`: Test structure best practices (Page Object Model, data-driven testing)
+- `workshop_9`: CI-ready tagged tests with `@gitHubAction`
+- `workshop_10`: CI integration with GitHub Actions, including flaky test demonstration and troubleshooting
 
 ## Project structure
 
-- `PlayWright/e2e/workshop_1` to `PlayWright/e2e/workshop_9`: Workshop exercises and test files
-- `PlayWright/playwright.config.ts`: Playwright configuration
-- `PlayWright/.github/workflows/playwright.yml`: CI workflow for automated test execution
+- `e2e/workshop_*`: Workshop test files
+- `playwright.config.ts`: Playwright test configuration
+- `.github/workflows/playwright.yml`: GitHub Actions CI pipeline
 
 ## Prerequisites
 
-- Node.js (LTS recommended)
+- Node.js (LTS)
 - npm
 
 ## Setup
 
 ```bash
-cd PlayWright
 npm install
 npx playwright install
 ```
 
-## Run tests
+## Run tests locally
 
 Run all tests:
 
 ```bash
-cd PlayWright
 npx playwright test
 ```
 
-Run a specific workshop test:
+Run Workshop 10 only:
 
 ```bash
-cd PlayWright
-npx playwright test e2e/workshop_9/workshop_9.spec.ts
+npx playwright test e2e/workshop_10/workshop_10.spec.ts
 ```
 
-Open the HTML report:
+Show HTML report:
 
 ```bash
-cd PlayWright
 npx playwright show-report
 ```
 
-## Notes
+## CI integration (GitHub Actions)
 
-This course is designed for hands-on learning. Start from workshop 1 and continue in order to build your Playwright skills step by step.
+CI is configured in `.github/workflows/playwright.yml`.
+
+Pipeline behavior:
+
+- Triggers on `push` and `pull_request` to `main` and `master`
+- Installs dependencies with `npm ci`
+- Installs Playwright browsers with dependencies
+- Runs only Firefox project tests tagged with `@gitHubAction`
+- Uploads `playwright-report` as a build artifact
+
+CI test command used:
+
+```bash
+npx playwright test --project firefox --grep '@gitHubAction'
+```
+
+## Important notes
+
+- In CI, `forbidOnly` is enabled via `playwright.config.ts`, so committed `test.only(...)` will fail the pipeline.
+- Add `@gitHubAction` in test titles for tests you want to run in GitHub Actions.
